@@ -75,3 +75,15 @@ func TestEntryPanicf(t *testing.T) {
 	entry := NewEntry(logger)
 	entry.WithField("err", errBoom).Panicf("kaboom %v", true)
 }
+
+func TestEntryAuditDoesNotPanic(t *testing.T) {
+	defer func() {
+		p := recover()
+		assert.Nil(t, p)
+	}()
+
+	logger := New()
+	logger.Out = &bytes.Buffer{}
+	entry := NewEntry(logger)
+	entry.WithField("event", "something").Audit("something happened")
+}

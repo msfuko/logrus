@@ -27,6 +27,8 @@ func (level Level) String() string {
 		return "fatal"
 	case PanicLevel:
 		return "panic"
+	case AuditLevel:
+		return "audit"
 	}
 
 	return "unknown"
@@ -35,6 +37,8 @@ func (level Level) String() string {
 // ParseLevel takes a string level and returns the Logrus log level constant.
 func ParseLevel(lvl string) (Level, error) {
 	switch strings.ToLower(lvl) {
+	case "audit":
+		return AuditLevel, nil
 	case "panic":
 		return PanicLevel, nil
 	case "fatal":
@@ -55,6 +59,7 @@ func ParseLevel(lvl string) (Level, error) {
 
 // A constant exposing all logging levels
 var AllLevels = []Level{
+	AuditLevel,
 	PanicLevel,
 	FatalLevel,
 	ErrorLevel,
@@ -66,9 +71,11 @@ var AllLevels = []Level{
 // These are the different logging levels. You can set the logging level to log
 // on your instance of logger, obtained with `logrus.New()`.
 const (
+	// AuditLevel level, highest level of severity. Logs with the message passed.
+	AuditLevel Level = iota
 	// PanicLevel level, highest level of severity. Logs and then calls panic with the
 	// message passed to Debug, Info, ...
-	PanicLevel Level = iota
+	PanicLevel
 	// FatalLevel level. Logs and then calls `os.Exit(1)`. It will exit even if the
 	// logging level is set to Panic.
 	FatalLevel
@@ -122,6 +129,7 @@ type FieldLogger interface {
 	Errorf(format string, args ...interface{})
 	Fatalf(format string, args ...interface{})
 	Panicf(format string, args ...interface{})
+	Auditf(format string, args ...interface{})
 
 	Debug(args ...interface{})
 	Info(args ...interface{})
@@ -131,6 +139,7 @@ type FieldLogger interface {
 	Error(args ...interface{})
 	Fatal(args ...interface{})
 	Panic(args ...interface{})
+	Audit(args ...interface{})
 
 	Debugln(args ...interface{})
 	Infoln(args ...interface{})
@@ -140,4 +149,5 @@ type FieldLogger interface {
 	Errorln(args ...interface{})
 	Fatalln(args ...interface{})
 	Panicln(args ...interface{})
+	Auditln(args ...interface{})
 }

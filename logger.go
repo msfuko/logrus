@@ -88,7 +88,7 @@ func (logger *Logger) releaseEntry(entry *Entry) {
 }
 
 // Adds a field to the log entry, note that it doesn't log until you call
-// Debug, Print, Info, Warn, Fatal or Panic. It only creates a log entry.
+// Debug, Print, Info, Warn, Fatal, Panic, or Audit. It only creates a log entry.
 // If you want multiple fields, use `WithFields`.
 func (logger *Logger) WithField(key string, value interface{}) *Entry {
 	entry := logger.newEntry()
@@ -175,6 +175,12 @@ func (logger *Logger) Panicf(format string, args ...interface{}) {
 	}
 }
 
+func (logger *Logger) Auditf(format string, args ...interface{}) {
+	entry := logger.newEntry()
+	entry.Auditf(format, args...)
+	logger.releaseEntry(entry)
+}
+
 func (logger *Logger) Debug(args ...interface{}) {
 	if logger.level() >= DebugLevel {
 		entry := logger.newEntry()
@@ -238,6 +244,12 @@ func (logger *Logger) Panic(args ...interface{}) {
 	}
 }
 
+func (logger *Logger) Audit(args ...interface{}) {
+	entry := logger.newEntry()
+	entry.Audit(args...)
+	logger.releaseEntry(entry)
+}
+
 func (logger *Logger) Debugln(args ...interface{}) {
 	if logger.level() >= DebugLevel {
 		entry := logger.newEntry()
@@ -299,6 +311,12 @@ func (logger *Logger) Panicln(args ...interface{}) {
 		entry.Panicln(args...)
 		logger.releaseEntry(entry)
 	}
+}
+
+func (logger *Logger) Auditln(args ...interface{}) {
+	entry := logger.newEntry()
+	entry.Auditln(args...)
+	logger.releaseEntry(entry)
 }
 
 //When file is opened with appending mode, it's safe to
