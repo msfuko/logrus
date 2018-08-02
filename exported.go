@@ -112,6 +112,11 @@ func Fatal(args ...interface{}) {
 	std.Fatal(args...)
 }
 
+// Audit logs a message at level Audit on the standard logger.
+func Audit(args ...interface{}) {
+	std.Audit(args...)
+}
+
 // Debugf logs a message at level Debug on the standard logger.
 func Debugf(format string, args ...interface{}) {
 	std.Debugf(format, args...)
@@ -152,6 +157,11 @@ func Fatalf(format string, args ...interface{}) {
 	std.Fatalf(format, args...)
 }
 
+// Auditf logs a message at level Audit on the standard logger.
+func Auditf(format string, args ...interface{}) {
+	std.Auditf(format, args...)
+}
+
 // Debugln logs a message at level Debug on the standard logger.
 func Debugln(args ...interface{}) {
 	std.Debugln(args...)
@@ -190,4 +200,9 @@ func Panicln(args ...interface{}) {
 // Fatalln logs a message at level Fatal on the standard logger.
 func Fatalln(args ...interface{}) {
 	std.Fatalln(args...)
+}
+
+// Auditln logs a message at level Fatal on the standard logger.
+func Auditln(args ...interface{}) {
+	std.Auditln(args...)
 }
