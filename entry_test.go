@@ -254,3 +254,15 @@ func TestEntryReportCallerRace(t *testing.T) {
 		entry.Info("should not race")
 	}()
 }
+func TestEntryAuditDoesNotPanic(t *testing.T) {
+	defer func() {
+		p := recover()
+		assert.Nil(t, p)
+	}()
+
+	logger := New()
+	logger.Out = &bytes.Buffer{}
+	entry := NewEntry(logger)
+	entry.WithField("event", "something").Audit("something happened")
+	// if we get this far then it didn't panic
+}
